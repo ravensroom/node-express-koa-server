@@ -6,6 +6,18 @@ const { get, set } = require('./src/db/redis');
 const serverHandle = (req, res) => {
   res.setHeader('Content-type', 'application/json');
 
+  // cors
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8001');
+  res.setHeader(
+    'Access-Control-Allow-Methods',
+    'GET, POST, PUT, DELETE, OPTIONS'
+  );
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-Requested-With, content-type'
+  );
+  res.setHeader('Access-Control-Allow-Credentials', true);
+
   const url = req.url;
   req.path = url.split('?')[0];
   req.query = querystring.parse(url.split('?')[1]);
