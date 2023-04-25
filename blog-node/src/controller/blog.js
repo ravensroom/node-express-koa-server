@@ -23,7 +23,7 @@ const getDetail = (id) => {
 };
 
 const newBlog = (blogData) => {
-  const { title, content, author } = blogData;
+  let { title, content, author } = blogData;
   title = escape(xss(title));
   content = escape(xss(content));
   author = escape(xss(author));
@@ -35,7 +35,7 @@ const newBlog = (blogData) => {
 };
 
 const updateBlog = (id, blogData = null) => {
-  const { title, content } = blogData;
+  let { title, content } = blogData;
   title = escape(xss(title));
   content = escape(xss(content));
   const sql = `update blogs set title=${title}, content=${content} where id=${id};`;
