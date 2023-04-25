@@ -1,9 +1,10 @@
 // controller cares about data most
 const { exec, escape } = require('../db/mysql');
+const xss = require('xss');
 
 const getList = (author, keyword) => {
-  author = escape(author);
-  keyword = escape(keyword);
+  author = escape(xss(author));
+  keyword = escape(xss(keyword));
   let sql = 'select * from blogs where 1=1 ';
   if (author) {
     sql += `and author=${author} `;
@@ -16,16 +17,16 @@ const getList = (author, keyword) => {
 };
 
 const getDetail = (id) => {
-  id = escape(id);
+  id = escape(xss(id));
   const sql = `select * from blogs where id=${id}`;
   return exec(sql).then((rows) => rows[0]);
 };
 
 const newBlog = (blogData) => {
   const { title, content, author } = blogData;
-  title = escape(title);
-  content = escape(content);
-  author = escape(author);
+  title = escape(xss(title));
+  content = escape(xss(content));
+  author = escape(xss(author));
   const createTime = Date.now();
   const sql = `insert into blogs (title, content, createtime, author) values(${title}, ${content}, ${createTime}, ${author});`;
   return exec(sql).then((insertData) => {
@@ -35,8 +36,8 @@ const newBlog = (blogData) => {
 
 const updateBlog = (id, blogData = null) => {
   const { title, content } = blogData;
-  title = escape(title);
-  content = escape(content);
+  title = escape(xss(title));
+  content = escape(xss(content));
   const sql = `update blogs set title=${title}, content=${content} where id=${id};`;
   return exec(sql).then((updateData) => {
     return updateData.affectedRows > 0 ? true : false;
@@ -44,8 +45,8 @@ const updateBlog = (id, blogData = null) => {
 };
 
 const deleteBlog = (id, author) => {
-  id = escape(id);
-  author = escape(author);
+  id = escape(xss(id));
+  author = escape(xss(author));
   const sql = `delete from blogs where id=${id} and author=${author};`;
   return exec(sql).then((delData) => {
     return delData.affectedRows > 0 ? true : false;
