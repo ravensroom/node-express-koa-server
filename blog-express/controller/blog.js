@@ -1,4 +1,3 @@
-// controller cares about data most
 const { exec, escape } = require('../db/mysql');
 const xss = require('xss');
 
